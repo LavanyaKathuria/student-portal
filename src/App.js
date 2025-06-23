@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Login from './pages/login';
 import Signup from './pages/signup';
@@ -32,33 +31,10 @@ function AppRoutes() {
         <Route path="/users" element={isLoggedIn ? <Users /> : <Navigate to="/" />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-=======
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
->>>>>>> temp-merge-fix
     </div>
   );
 }
 
-<<<<<<< HEAD
 export default function App() {
   return (
     <Router>
@@ -66,6 +42,3 @@ export default function App() {
     </Router>
   );
 }
-=======
-export default App;
->>>>>>> temp-merge-fix
