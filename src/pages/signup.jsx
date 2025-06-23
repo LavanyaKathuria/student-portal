@@ -8,23 +8,27 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const users = JSON.parse(localStorage.getItem('users')) || [];
+  const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
 
-    const userExists = users.find(user => user.email === email);
-    if (userExists) {
-      alert('User already exists. Please log in.');
-      navigate('/login');
-      return;
-    }
+  const emailExists = existingUsers.some(user => user.email === email);
+
+  if (emailExists) {
+    alert('Account already exists. Please login.');
+    navigate('/');
+  } else {
 
     const newUser = { name, email, password };
-    users.push(newUser);
-    localStorage.setItem('users', JSON.stringify(users)); // ✅ CORRECT KEY
+    const updatedUsers = [...existingUsers, newUser];
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
 
-    navigate('/login', { state: { email, password } });
-  };
+    localStorage.setItem('username', name);
+    localStorage.setItem('loggedIn', 'true');
+
+    navigate('/login');
+  }
+};
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 dark:from-blue-950 dark:to-blue-900 transition-colors duration-500">

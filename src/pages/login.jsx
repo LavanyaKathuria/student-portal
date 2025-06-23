@@ -8,7 +8,6 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Prefill email/password if redirected from signup
   useEffect(() => {
     if (location.state) {
       setEmail(location.state.email || '');
