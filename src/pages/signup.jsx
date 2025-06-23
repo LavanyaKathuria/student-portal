@@ -2,65 +2,82 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Signup() {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState('');
   const navigate = useNavigate();
 
-  const handleSignup = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !email || !password) {
-      setError('All fields are required');
+
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+
+    const userExists = users.find(user => user.email === email);
+    if (userExists) {
+      alert('User already exists. Please log in.');
+      navigate('/login');
       return;
     }
 
-    alert('Signup successful. You can now login.');
-    navigate('/');
+    const newUser = { name, email, password };
+    users.push(newUser);
+    localStorage.setItem('users', JSON.stringify(users)); // ✅ CORRECT KEY
+
+    navigate('/login', { state: { email, password } });
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 to-pink-100">
-      <form onSubmit={handleSignup} className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-sm">
-        <h2 className="text-2xl font-bold text-purple-600 text-center mb-6">Sign Up</h2>
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-
-        <input
-          type="text"
-          placeholder="Full Name"
-          className="w-full mb-4 p-2 border rounded"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full mb-4 p-2 border rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full mb-6 p-2 border rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button type="submit" className="w-full bg-purple-500 text-white py-2 rounded hover:bg-purple-600">
-          Sign Up
-        </button>
-
-        <p className="text-sm mt-4 text-center">
-          Already registered?{' '}
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 dark:from-blue-950 dark:to-blue-900 transition-colors duration-500">
+      <div className="bg-white dark:bg-blue-950 p-8 rounded-xl shadow-xl w-full max-w-md">
+        <h2 className="text-3xl font-bold mb-6 text-center text-blue-900 dark:text-white">Create an Account</h2>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block mb-1 text-sm font-medium text-blue-900 dark:text-white">Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-blue-700 bg-white dark:bg-blue-900 text-blue-900 dark:text-white"
+            />
+          </div>
+          <div>
+            <label className="block mb-1 text-sm font-medium text-blue-900 dark:text-white">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-blue-700 bg-white dark:bg-blue-900 text-blue-900 dark:text-white"
+            />
+          </div>
+          <div>
+            <label className="block mb-1 text-sm font-medium text-blue-900 dark:text-white">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-blue-700 bg-white dark:bg-blue-900 text-blue-900 dark:text-white"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition"
+          >
+            Sign Up
+          </button>
+        </form>
+        <p className="text-sm mt-4 text-center text-blue-900 dark:text-blue-300">
+          Already have an account?{' '}
           <span
-            className="text-purple-600 cursor-pointer hover:underline"
-            onClick={() => navigate('/')}
+            className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+            onClick={() => navigate('/login')}
           >
             Login
           </span>
         </p>
-      </form>
+      </div>
     </div>
   );
 }
