@@ -7,15 +7,15 @@ export default function Navbar({ theme, setTheme }) {
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
-    const name = localStorage.getItem('username');
-    if (name) {
-      setUserName(name);
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.name) {
+      setUserName(user.name);
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('loggedIn');
-    localStorage.removeItem('username');
+    localStorage.removeItem('user');
     navigate('/');
   };
 

@@ -8,12 +8,12 @@ import Navbar from './pages/navbar';
 import { useEffect, useState } from 'react';
 
 function AppRoutes() {
-  const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
   const location = useLocation();
+  const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
   const [theme, setTheme] = useState('light');
 
   useEffect(() => {
-    const root = window.document.documentElement;
+    const root = document.documentElement;
     root.classList.remove(theme === 'dark' ? 'light' : 'dark');
     root.classList.add(theme);
   }, [theme]);
